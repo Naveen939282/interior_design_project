@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ramdev Interior – Guntakal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --gold-dim: #7a621f;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1a1a1a;
+    --dark3: #222222;
+    --text: #E8E4DC;
+    --text-muted: #8a8478;
+    --border: rgba(201,168,76,0.2);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.5rem 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 5vw;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-logo span { font-style: italic; color: var(--text); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 1px; background: var(--text); transition: 0.3s;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    height: 100vh; position: relative;
+    display: flex; align-items: flex-end;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,0.3) 50%, rgba(10,10,10,0.1) 100%),
+      linear-gradient(135deg, #1a1208 0%, #0f0d08 50%, #0a0a0a 100%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  /* Decorative gold circles */
+  .hero-circle {
+    position: absolute; border-radius: 50%;
+    border: 0.5px solid rgba(201,168,76,0.1);
+  }
+  .hero-circle-1 { width: 600px; height: 600px; top: -200px; right: -150px; }
+  .hero-circle-2 { width: 400px; height: 400px; top: 50px; right: 100px; }
+  .hero-circle-3 { width: 200px; height: 200px; top: 200px; right: 250px; border-color: rgba(201,168,76,0.2); }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 5vw 8vh;
+    max-width: 800px;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 1.2rem;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block; width: 40px; height: 0.5px;
+    background: var(--gold);
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    margin-bottom: 2rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    max-width: 400px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 1rem;
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-bottom: 0.5px solid var(--gold-dim);
+    padding-bottom: 0.5rem;
+    transition: gap 0.3s, border-color 0.3s;
+  }
+  .hero-cta:hover { gap: 1.5rem; border-color: var(--gold); }
+  .hero-cta::after { content: '→'; font-size: 1.1rem; }
+
+  .hero-scroll {
+    position: absolute; right: 5vw; bottom: 8vh;
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    z-index: 2;
+  }
+  .hero-scroll span {
+    writing-mode: vertical-rl;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .scroll-line {
+    width: 0.5px; height: 60px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* ── SECTIONS COMMON ── */
+  section { padding: 8rem 5vw; }
+
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::before {
+    content: '';
+    display: block; width: 30px; height: 0.5px;
+    background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .divider {
+    width: 60px; height: 0.5px;
+    background: var(--gold);
+    margin: 2.5rem 0;
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--dark); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .about-text p {
+    font-size: 0.95rem;
+    line-height: 2;
+    color: var(--text-muted);
+    margin-bottom: 1.2rem;
+  }
+  .about-text p strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+  }
+
+  /* Owner cards */
+  .owners-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .owner-card {
+    background: var(--dark2);
+    border: 0.5px solid var(--border);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .owner-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  .owner-photo {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--dark3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .owner-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .owner-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 0.3rem;
+  }
+  .owner-role {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .owner-bio {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.9;
+  }
+
+  /* ── SERVICES ── */
+  #services { background: var(--black); }
+  .services-intro {
+    max-width: 600px;
+    margin-bottom: 5rem;
+  }
+  .services-intro p {
+    font-size: 0.95rem;
+    line-height: 2;
+    color: var(--text-muted);
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 0.5px solid var(--border);
+  }
+  .service-item {
+    padding: 3rem 2.5rem;
+    border-right: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+    cursor: default;
+  }
+  .service-item:hover { background: var(--dark2); }
+  .service-item:nth-child(3n) { border-right: none; }
+  .service-item:nth-child(n+4) { border-bottom: none; }
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: rgba(201,168,76,0.15);
+    position: absolute;
+    top: 1rem; right: 1.5rem;
+    line-height: 1;
+    transition: color 0.4s;
+  }
+  .service-item:hover .service-num { color: rgba(201,168,76,0.3); }
+  .service-icon {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--gold);
+  }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+  .service-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.9;
+  }
+  .service-line {
+    width: 30px; height: 0.5px;
+    background: var(--gold);
+    margin-bottom: 1.2rem;
+    transition: width 0.4s;
+  }
+  .service-item:hover .service-line { width: 50px; }
+
+  /* ── PORTFOLIO ── */
+  #portfolio { background: var(--dark); }
+  .portfolio-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .portfolio-link {
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-bottom: 0.5px solid var(--gold-dim);
+    padding-bottom: 0.3rem;
+  }
+
+  /* Masonry-like grid */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 1rem;
+  }
+  .proj {
+    position: relative;
+    overflow: hidden;
+    background: var(--dark2);
+    border: 0.5px solid var(--border);
+  }
+  .proj:nth-child(1) { grid-column: 1 / 8; grid-row: 1 / 3; min-height: 480px; }
+  .proj:nth-child(2) { grid-column: 8 / 13; grid-row: 1; min-height: 230px; }
+  .proj:nth-child(3) { grid-column: 8 / 13; grid-row: 2; min-height: 230px; }
+  .proj:nth-child(4) { grid-column: 1 / 5; grid-row: 3; min-height: 280px; }
+  .proj:nth-child(5) { grid-column: 5 / 9; grid-row: 3; min-height: 280px; }
+  .proj:nth-child(6) { grid-column: 9 / 13; grid-row: 3; min-height: 280px; }
+
+  .proj-placeholder {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .proj-placeholder-icon {
+    font-size: 2rem;
+    color: var(--gold-dim);
+    opacity: 0.5;
+  }
+  .proj-placeholder-text {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    opacity: 0.4;
+    letter-spacing: 0.1em;
+  }
+
+  /* Image inside proj */
+  .proj img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease;
+  }
+  .proj:hover img { transform: scale(1.05); }
+
+  .proj-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0) 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    display: flex; align-items: flex-end;
+    padding: 2rem;
+  }
+  .proj:hover .proj-overlay { opacity: 1; }
+  .proj-info {}
+  .proj-cat {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+  .proj-title-card {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+  }
+
+  /* photo upload notice */
+  .upload-notice {
+    margin-top: 3rem;
+    padding: 1.5rem 2rem;
+    border: 0.5px dashed var(--border);
+    display: flex; align-items: center; gap: 1.5rem;
+  }
+  .upload-notice-icon { font-size: 1.5rem; color: var(--gold); opacity: 0.6; }
+  .upload-notice p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
+  .upload-notice strong { color: var(--text); font-weight: 400; }
+
+  /* ── PROCESS ── */
+  #process { background: var(--black); }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 4rem;
+    border-top: 0.5px solid var(--border);
+    border-left: 0.5px solid var(--border);
+  }
+  .process-step {
+    padding: 3rem 2rem;
+    border-right: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    position: relative;
+  }
+  .process-arrow {
+    position: absolute; top: 50%; right: -1rem;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 1.2rem;
+    z-index: 2;
+  }
+  .process-step:last-child .process-arrow { display: none; }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: rgba(201,168,76,0.15);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .step-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+  .step-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.9;
+  }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--dark); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    max-width: 1100px;
+  }
+  .contact-info { }
+  .contact-info p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 2;
+    margin-bottom: 3rem;
+  }
+  .contact-details { display: flex; flex-direction: column; gap: 1.5rem; }
+  .contact-detail {
+    display: flex; align-items: flex-start; gap: 1.5rem;
+  }
+  .contact-detail-icon {
+    width: 36px; height: 36px;
+    border: 0.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .contact-detail-text label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .contact-detail-text span {
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+  .contact-detail-text a {
+    font-size: 0.9rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .contact-detail-text a:hover { color: var(--gold); }
+
+  /* Form */
+  .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-group label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: var(--dark2);
+    border: 0.5px solid var(--border);
+    color: var(--text);
+    padding: 1rem 1.2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+  .form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23C9A84C' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.2rem center;
+    padding-right: 2.5rem;
+  }
+  .form-group select option {
+    background: var(--dark2);
+    color: var(--text);
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--gold-dim);
+  }
+  .form-group textarea { resize: vertical; min-height: 130px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .submit-btn {
+    background: transparent;
+    border: 0.5px solid var(--gold);
+    color: var(--gold);
+    padding: 1.2rem 3rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    align-self: flex-start;
+  }
+  .submit-btn:hover {
+    background: var(--gold);
+    color: var(--black);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: 0.5px solid var(--border);
+    padding: 3rem 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+  }
+  .footer-copy {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ── MOBILE NAV ── */
+  .mobile-menu {
+    display: none;
+    position: fixed; inset: 0; z-index: 99;
+    background: rgba(10,10,10,0.98);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-close {
+    position: absolute; top: 2rem; right: 5vw;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+    background: none; border: none;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .owners-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .service-item:nth-child(3n) { border-right: 0.5px solid var(--border); }
+    .service-item:nth-child(2n) { border-right: none; }
+    .proj:nth-child(1) { grid-column: 1 / -1; grid-row: auto; min-height: 300px; }
+    .proj:nth-child(2),
+    .proj:nth-child(3) { grid-column: span 6; grid-row: auto; min-height: 200px; }
+    .proj:nth-child(4),
+    .proj:nth-child(5),
+    .proj:nth-child(6) { grid-column: span 4; grid-row: auto; min-height: 200px; }
+    .process-grid { grid-template-columns: 1fr 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .portfolio-grid { grid-template-columns: 1fr 1fr; }
+    .proj:nth-child(n) { grid-column: auto; grid-row: auto; min-height: 220px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .process-arrow { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    section { padding: 5rem 5vw; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-item:nth-child(n) { border-right: none; }
+    .process-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ── WHATSAPP FLOAT ── */
+  .wa-float {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.8rem;
+  }
+  .wa-tooltip {
+    background: var(--dark2);
+    border: 0.5px solid var(--border);
+    color: var(--text);
+    font-size: 0.78rem;
+    padding: 0.6rem 1rem;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+  }
+  .wa-float:hover .wa-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .wa-btn {
+    width: 56px;
+    height: 56px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: waPulse 2.5s ease-in-out infinite;
+  }
+  .wa-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(37,211,102,0.5);
+    animation: none;
+  }
+  .wa-btn svg {
+    width: 28px;
+    height: 28px;
+    fill: #fff;
+  }
+  @keyframes waPulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.35); }
+    50% { box-shadow: 0 4px 30px rgba(37,211,102,0.6); }
+  }
+
+  /* ── FADE-IN ANIMATION ── */
+  /* Fade-in animation */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Toast notification */
+  .toast {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+    background: var(--gold);
+    color: var(--black);
+    padding: 1rem 1.5rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    display: none;
+    animation: slideUp 0.4s ease;
+  }
+  .toast.show { display: block; }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Ramdev <span>Interior</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Projects</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#about" class="mob-link">About</a>
+  <a href="#services" class="mob-link">Services</a>
+  <a href="#portfolio" class="mob-link">Projects</a>
+  <a href="#process" class="mob-link">Process</a>
+  <a href="#contact" class="mob-link">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-circle hero-circle-1"></div>
+  <div class="hero-circle hero-circle-2"></div>
+  <div class="hero-circle hero-circle-3"></div>
+
+  <div class="hero-content">
+    <h1 class="hero-title">
+      Spaces that<br/>
+      speak in<br/>
+      <em>silence.</em>
+    </h1>
+    <div class="hero-eyebrow">Guntakal, Andhra Pradesh</div>
+    <p class="hero-subtitle">
+      Crafting luxury interiors that blend timeless elegance with purposeful design — for homes and businesses across Guntakal and beyond.
+    </p>
+    <a href="#portfolio" class="hero-cta">View Our Work</a>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <div class="section-label">Our Story</div>
+      <h2 class="section-title">Design rooted in<br/><em>craft & character</em></h2>
+      <div class="divider"></div>
+      <p>
+        <strong>Ramdev Interior</strong> was built on a simple belief: every space deserves to be designed with intention. We don't follow trends — we translate your vision into environments that feel uniquely yours.
+      </p>
+      <p>
+        Based in Guntakal, we work closely with clients to understand how they live, work, and breathe — and then we build around that. From concept sketches to final finishes, every detail is considered.
+      </p>
+      <div class="about-stats">
+        <div>
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div>
+          <div class="stat-num">150+</div>
+          <div class="stat-label">Projects Delivered</div>
+        </div>
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Client Satisfaction</div>
+        </div>
+        <div>
+          <div class="stat-num">2</div>
+          <div class="stat-label">Expert Founders</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="owners-grid fade-in">
+      <div class="owner-card">
+        <div class="owner-photo" id="photo1">
+          <!-- Replace src below with your actual photo -->
+          <img src="owner1.jpg" alt="Jandig Shanthilal" onerror="this.style.display='none'; this.parentElement.innerText='JS';" />
+        </div>
+        <div class="owner-name">Jandig Shanthilal</div>
+        <div class="owner-role">Co-Founder & Design Director</div>
+        <p class="owner-bio">With a passion for spatial aesthetics and a keen eye for detail, Shanthilal leads the creative vision at Ramdev Interior.</p>
+      </div>
+      <div class="owner-card">
+        <div class="owner-photo" id="photo2">
+          <img src="owner2.jpg" alt="Jandig Jaswanth" onerror="this.style.display='none'; this.parentElement.innerText='JJ';" />
+        </div>
+        <div class="owner-name">Jandig Jaswanth</div>
+        <div class="owner-role">Co-Founder & Project Lead</div>
+        <p class="owner-bio">Jaswanth brings precision and project mastery to every build, ensuring each interior is delivered to the highest standard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-intro fade-in">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title">Every space,<br/><em>thoughtfully designed</em></h2>
+    <div class="divider"></div>
+    <p>From residential homes to commercial spaces, we offer end-to-end interior design services tailored to your lifestyle and budget.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-item fade-in">
+      <div class="service-num">01</div>
+      <div class="service-icon">◆</div>
+      <div class="service-line"></div>
+      <div class="service-name">Residential Interiors</div>
+      <p class="service-desc">Complete home design — from living rooms and bedrooms to kitchens and bathrooms. We turn your house into a home that tells your story.</p>
+    </div>
+    <div class="service-item fade-in">
+      <div class="service-num">02</div>
+      <div class="service-icon">◆</div>
+      <div class="service-line"></div>
+      <div class="service-name">Commercial Spaces</div>
+      <p class="service-desc">Offices, showrooms, restaurants, and retail spaces designed to impress clients and inspire your team.</p>
+    </div>
+    <div class="service-item fade-in">
+      <div class="service-num">03</div>
+      <div class="service-icon">◆</div>
+      <div class="service-line"></div>
+      <div class="service-name">Modular Furniture</div>
+      <p class="service-desc">Custom-built modular kitchens, wardrobes, and furniture that maximize space and complement your aesthetic.</p>
+    </div>
+    <div class="service-item fade-in">
+      <div class="service-num">04</div>
+      <div class="service-icon">◆</div>
+      <div class="service-line"></div>
+      <div class="service-name">False Ceiling & Lighting</div>
+      <p class="service-desc">Sophisticated ceiling designs paired with precision lighting to set the perfect ambience in every room.</p>
+    </div>
+    <div class="service-item fade-in">
+      <div class="service-num">05</div>
+      <div class="service-icon">◆</div>
+      <div class="service-line"></div>
+      <div class="service-name">Turnkey Execution</div>
+      <p class="service-desc">Full project management from concept to completion. We handle every vendor, contractor, and timeline — so you don't have to.</p>
+    </div>
+    <div class="service-item fade-in">
+      <div class="service-num">06</div>
+      <div class="service-icon">◆</div>
+      <div class="service-line"></div>
+      <div class="service-name">3D Visualization</div>
+      <p class="service-desc">Photorealistic 3D renders and walkthroughs of your space before a single nail is hammered — so you see it before you build it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-header fade-in">
+    <div>
+      <div class="section-label">Our Work</div>
+      <h2 class="section-title">Selected<br/><em>Projects</em></h2>
+    </div>
+    <a href="#contact" class="portfolio-link">Start Your Project →</a>
+  </div>
+
+  <div class="portfolio-grid">
+    <div class="proj fade-in">
+      <!-- Add your project image: <img src="project1.jpg" alt="Project Name"> -->
+      <img src="proj1.jpg" alt="Luxury Lounge, Guntakal" loading="lazy" />
+      <div class="proj-overlay">
+        <div class="proj-info">
+          <div class="proj-cat">Residential · 2024</div>
+          <div class="proj-title-card">Luxury Lounge & Living Room</div>
+        </div>
+      </div>
+    </div>
+    <div class="proj fade-in">
+      <img src="proj2.jpg" alt="Modern Living Room" loading="lazy" />
+      <div class="proj-overlay">
+        <div class="proj-info">
+          <div class="proj-cat">Residential · 2024</div>
+          <div class="proj-title-card">Modern Living Room, Guntakal</div>
+        </div>
+      </div>
+    </div>
+    <div class="proj fade-in">
+      <img src="proj3.jpg" alt="Master Bedroom Suite" loading="lazy" />
+      <div class="proj-overlay">
+        <div class="proj-info">
+          <div class="proj-cat">Residential · 2024</div>
+          <div class="proj-title-card">Master Bedroom & Wardrobe</div>
+        </div>
+      </div>
+    </div>
+    <div class="proj fade-in">
+      <img src="proj4.jpg" alt="Luxury Office Interior" loading="lazy" />
+      <div class="proj-overlay">
+        <div class="proj-info">
+          <div class="proj-cat">Commercial · 2024</div>
+          <div class="proj-title-card">Premium Office Interior</div>
+        </div>
+      </div>
+    </div>
+    <div class="proj fade-in">
+      <img src="proj5.jpg" alt="Modular Kitchen" loading="lazy" />
+      <div class="proj-overlay">
+        <div class="proj-info">
+          <div class="proj-cat">Modular · 2023</div>
+          <div class="proj-title-card">Modular Kitchen Design</div>
+        </div>
+      </div>
+    </div>
+    <div class="proj fade-in">
+      <img src="proj6.jpg" alt="Office Space Design" loading="lazy" />
+      <div class="proj-overlay">
+        <div class="proj-info">
+          <div class="proj-cat">Commercial · 2023</div>
+          <div class="proj-title-card">Modern Office Space</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="fade-in">
+    <div class="section-label">How We Work</div>
+    <h2 class="section-title">From vision<br/><em>to reality</em></h2>
+  </div>
+  <div class="process-grid">
+    <div class="process-step fade-in">
+      <div class="step-num">01</div>
+      <div class="step-name">Consultation</div>
+      <p class="step-desc">We meet, we listen. Understanding your lifestyle, taste, and budget is where every great project begins.</p>
+      <div class="process-arrow">→</div>
+    </div>
+    <div class="process-step fade-in">
+      <div class="step-num">02</div>
+      <div class="step-name">Concept Design</div>
+      <p class="step-desc">We craft mood boards, floor plans, and 3D renders so you can see and feel the space before it's built.</p>
+      <div class="process-arrow">→</div>
+    </div>
+    <div class="process-step fade-in">
+      <div class="step-num">03</div>
+      <div class="step-name">Execution</div>
+      <p class="step-desc">Our team of skilled craftsmen brings the design to life — on time, within budget, zero compromises on quality.</p>
+      <div class="process-arrow">→</div>
+    </div>
+    <div class="process-step fade-in">
+      <div class="step-num">04</div>
+      <div class="step-name">Handover</div>
+      <p class="step-desc">We do a final walkthrough together, make any last adjustments, and hand over a space that exceeds your expectations.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="fade-in">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="section-title">Let's design<br/><em>your space</em></h2>
+      <div class="divider"></div>
+      <p>Ready to transform your space? We'd love to hear about your project. Reach out and let's start a conversation.</p>
+
+      <div class="contact-details">
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📍</div>
+          <div class="contact-detail-text">
+            <label>Location</label>
+            <span>Guntakal, Andhra Pradesh</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📞</div>
+          <div class="contact-detail-text">
+            <label>Phone</label>
+            <a href="tel:+919398640167">+91 93986 40167</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">✉️</div>
+          <div class="contact-detail-text">
+            <label>Email</label>
+            <a href="mailto:jaswanthjangid65@gmail.com">jaswanthjangid65@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">🕐</div>
+          <div class="contact-detail-text">
+            <label>Working Hours</label>
+            <span>Mon – Sat, 9:00 AM – 7:00 PM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form fade-in" id="contactForm" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="Full name" required />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label for="service">Service Interested In</label>
+        <select id="service">
+          <option value="">Select a service…</option>
+          <option>Residential Interiors</option>
+          <option>Commercial Spaces</option>
+          <option>Modular Furniture</option>
+          <option>False Ceiling & Lighting</option>
+          <option>Turnkey Execution</option>
+          <option>3D Visualization</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Tell Us About Your Project</label>
+        <textarea id="message" placeholder="Describe your space, requirements, budget range…"></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send Enquiry →</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Ramdev Interior</div>
+  <div class="footer-copy">© 2025 Ramdev Interior, Guntakal. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#portfolio">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Message sent! We'll contact you soon.</div>
+
+<!-- WHATSAPP FLOAT BUTTON -->
+<div class="wa-float">
+  <div class="wa-tooltip">💬 Chat with us on WhatsApp</div>
+  <a class="wa-btn" id="waFloatBtn" href="https://wa.me/919398640167?text=Hi%2C%20I%20visited%20your%20website%20and%20I'm%20interested%20in%20your%20interior%20design%20services." target="_blank" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+</div>
+
+<script>
+  // Nav scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+  hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+  mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  document.querySelectorAll('.mob-link').forEach(a => {
+    a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  });
+
+  // Fade-in on scroll
+  const faders = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  faders.forEach(f => observer.observe(f));
+
+  // Form submit → Formspree (email) + WhatsApp
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const name    = document.getElementById('name').value.trim();
+    const phone   = document.getElementById('phone').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const service = document.getElementById('service').value || 'Not specified';
+    const message = document.getElementById('message').value.trim();
+
+    // 1) Send to Formspree → arrives in your email
+    try {
+      await fetch('https://formspree.io/f/xgojwllb', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ name, phone, email, service, message })
+      });
+    } catch(err) {
+      console.warn('Formspree error:', err);
+    }
+
+    // 2) Open WhatsApp with full enquiry details
+    const text =
+      `🏠 *New Enquiry – Ramdev Interior*\n\n` +
+      `*Name:* ${name}\n` +
+      `*Phone:* ${phone}\n` +
+      `*Email:* ${email || 'Not provided'}\n` +
+      `*Service:* ${service}\n` +
+      `*Message:* ${message || 'No message'}`;
+
+    const waURL = `https://wa.me/919398640167?text=${encodeURIComponent(text)}`;
+    window.open(waURL, '_blank');
+
+    // 3) Show success toast
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+    e.target.reset();
+  }
+</script>
+</body>
+</html>
