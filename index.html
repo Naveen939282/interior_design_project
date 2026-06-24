@@ -248,7 +248,7 @@
     margin-top: 0.3rem;
   }
 
-  /* Owner cards */
+  /* Owner cards — portrait style */
   .owners-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -257,32 +257,52 @@
   .owner-card {
     background: var(--dark2);
     border: 0.5px solid var(--border);
-    padding: 2rem;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
-  .owner-card::before {
+  .owner-card::after {
     content: '';
-    position: absolute; top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: linear-gradient(to bottom, var(--gold), transparent);
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold), transparent);
   }
+  /* Portrait photo — tall rectangle, editorial */
   .owner-photo {
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 0;
     background: var(--dark3);
     display: flex; align-items: center; justify-content: center;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
+    font-size: 4rem;
     font-weight: 300;
-    color: var(--gold);
-    margin-bottom: 1.5rem;
+    color: rgba(201,168,76,0.25);
     overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .owner-photo::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.6) 0%, transparent 50%);
+    pointer-events: none;
   }
   .owner-photo img {
     width: 100%; height: 100%;
     object-fit: cover;
+    object-position: top center;
+    display: block;
+    filter: grayscale(15%) contrast(1.04);
+    transition: transform 0.7s ease;
+  }
+  .owner-card:hover .owner-photo img {
+    transform: scale(1.04);
+  }
+  .owner-info {
+    padding: 1.5rem 1.8rem 2rem;
+    border-top: 0.5px solid var(--border);
   }
   .owner-name {
     font-family: 'Cormorant Garamond', serif;
@@ -291,14 +311,14 @@
     margin-bottom: 0.3rem;
   }
   .owner-role {
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--gold);
     margin-bottom: 1rem;
   }
   .owner-bio {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--text-muted);
     line-height: 1.9;
   }
@@ -367,8 +387,9 @@
   }
   .service-item:hover .service-line { width: 50px; }
 
-  /* ── PORTFOLIO ── */
+  /* ── PORTFOLIO / GALLERY ── */
   #portfolio { background: var(--dark); }
+
   .portfolio-header {
     display: flex;
     align-items: flex-end;
@@ -377,6 +398,7 @@
     flex-wrap: wrap;
     gap: 2rem;
   }
+
   .portfolio-link {
     color: var(--gold);
     text-decoration: none;
@@ -385,88 +407,221 @@
     text-transform: uppercase;
     border-bottom: 0.5px solid var(--gold-dim);
     padding-bottom: 0.3rem;
+    transition: color 0.3s, border-color 0.3s;
   }
+  .portfolio-link:hover { color: var(--text); border-color: var(--gold); }
 
-  /* Masonry-like grid */
-  .portfolio-grid {
+  /* ── CATEGORY TILES (main view) ── */
+  .cat-tiles {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: auto;
-    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
   }
-  .proj {
+  .cat-tile {
     position: relative;
     overflow: hidden;
+    cursor: pointer;
     background: var(--dark2);
     border: 0.5px solid var(--border);
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: flex-end;
+    padding: 0;
+    transition: border-color 0.4s;
   }
-  .proj:nth-child(1) { grid-column: 1 / 8; grid-row: 1 / 3; min-height: 480px; }
-  .proj:nth-child(2) { grid-column: 8 / 13; grid-row: 1; min-height: 230px; }
-  .proj:nth-child(3) { grid-column: 8 / 13; grid-row: 2; min-height: 230px; }
-  .proj:nth-child(4) { grid-column: 1 / 5; grid-row: 3; min-height: 280px; }
-  .proj:nth-child(5) { grid-column: 5 / 9; grid-row: 3; min-height: 280px; }
-  .proj:nth-child(6) { grid-column: 9 / 13; grid-row: 3; min-height: 280px; }
-
-  .proj-placeholder {
+  .cat-tile:hover { border-color: rgba(201,168,76,0.6); }
+  .cat-tile-bg {
     position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column;
-    gap: 0.5rem;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(20%) brightness(0.65);
+    transition: transform 0.75s ease, filter 0.5s ease;
   }
-  .proj-placeholder-icon {
-    font-size: 2rem;
-    color: var(--gold-dim);
-    opacity: 0.5;
+  .cat-tile:hover .cat-tile-bg {
+    transform: scale(1.06);
+    filter: grayscale(0%) brightness(0.55);
   }
-  .proj-placeholder-text {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    opacity: 0.4;
-    letter-spacing: 0.1em;
-  }
-
-  /* Image inside proj */
-  .proj img {
+  .cat-tile-overlay {
     position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    transition: transform 0.7s ease;
+    background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.1) 60%, transparent 100%);
   }
-  .proj:hover img { transform: scale(1.05); }
-
-  .proj-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0) 60%);
-    opacity: 0;
-    transition: opacity 0.4s;
-    display: flex; align-items: flex-end;
-    padding: 2rem;
+  .cat-tile-content {
+    position: relative; z-index: 2;
+    padding: 1.8rem 2rem;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
   }
-  .proj:hover .proj-overlay { opacity: 1; }
-  .proj-info {}
-  .proj-cat {
+  .cat-tile-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1;
+  }
+  .cat-tile-count {
     font-size: 0.65rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 0.3rem;
   }
-  .proj-title-card {
-    font-family: 'Cormorant Garamond', serif;
+  .cat-tile-arrow {
     font-size: 1.4rem;
-    font-weight: 300;
+    color: var(--gold);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .cat-tile:hover .cat-tile-arrow {
+    opacity: 1;
+    transform: translateX(0);
   }
 
-  /* photo upload notice */
-  .upload-notice {
-    margin-top: 3rem;
-    padding: 1.5rem 2rem;
-    border: 0.5px dashed var(--border);
-    display: flex; align-items: center; gap: 1.5rem;
+  /* ── SUB VIEW ── */
+  #portfolioSubView {
+    display: none;
+    animation: subSlideIn 0.35s cubic-bezier(0.22,1,0.36,1) both;
   }
-  .upload-notice-icon { font-size: 1.5rem; color: var(--gold); opacity: 0.6; }
-  .upload-notice p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
-  .upload-notice strong { color: var(--text); font-weight: 400; }
+  @keyframes subSlideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .sub-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .sub-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: transparent;
+    border: 0.5px solid var(--border);
+    color: var(--text-muted);
+    padding: 0.7rem 1.2rem;
+    cursor: pointer;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .sub-back-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .sub-back-btn::before { content: '←'; font-size: 1rem; }
+  .sub-cat-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    color: var(--text);
+  }
+  .sub-cat-title em { font-style: italic; color: var(--gold); }
+  .sub-count {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* Adaptive masonry-ish grid */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+  }
+
+  .img-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--dark2);
+    border: 0.5px solid var(--border);
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+    transition: transform 0.7s ease, opacity 0.7s ease;
+    cursor: pointer;
+  }
+  .img-card.revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  .img-card img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.75s ease;
+    transform: scale(1);
+  }
+  .img-card:hover img { transform: scale(1.06); }
+
+  .img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0) 58%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    display: flex; align-items: flex-end;
+    padding: 1.5rem;
+  }
+  .img-card:hover .img-overlay { opacity: 1; }
+
+  .img-cat {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.35rem;
+  }
+  .img-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.15;
+  }
+
+  /* span helpers */
+  .span-6 { grid-column: span 6; }
+  .span-5 { grid-column: span 5; }
+  .span-4 { grid-column: span 4; }
+  .span-3 { grid-column: span 3; }
+  .span-7 { grid-column: span 7; }
+  .span-8 { grid-column: span 8; }
+  .span-9 { grid-column: span 9; }
+  .span-10 { grid-column: span 10; }
+
+  .h-240 { min-height: 240px; }
+  .h-280 { min-height: 280px; }
+  .h-320 { min-height: 320px; }
+  .h-360 { min-height: 360px; }
+  .h-420 { min-height: 420px; }
+
+  /* gold dust */
+  .dust-layer {
+    pointer-events: none;
+    position: absolute; inset: 0;
+    overflow: hidden; z-index: 1;
+  }
+  .dust {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.25);
+    box-shadow: 0 0 18px rgba(201,168,76,0.35);
+    filter: blur(0.2px);
+    opacity: 0.9;
+    animation: dustFloat 8s linear infinite;
+  }
+  @keyframes dustFloat {
+    0%   { transform: translateY(20vh) translateX(0) scale(0.8); opacity: 0; }
+    10%  { opacity: 0.9; }
+    100% { transform: translateY(-20vh) translateX(40px) scale(1.1); opacity: 0; }
+  }
 
   /* ── PROCESS ── */
   #process { background: var(--black); }
@@ -683,20 +838,15 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-    .owners-grid { grid-template-columns: 1fr; }
+    .owners-grid { grid-template-columns: 1fr 1fr; }
     .services-grid { grid-template-columns: 1fr 1fr; }
     .service-item:nth-child(3n) { border-right: 0.5px solid var(--border); }
     .service-item:nth-child(2n) { border-right: none; }
-    .proj:nth-child(1) { grid-column: 1 / -1; grid-row: auto; min-height: 300px; }
-    .proj:nth-child(2),
-    .proj:nth-child(3) { grid-column: span 6; grid-row: auto; min-height: 200px; }
-    .proj:nth-child(4),
-    .proj:nth-child(5),
-    .proj:nth-child(6) { grid-column: span 4; grid-row: auto; min-height: 200px; }
+    .cat-tiles { grid-template-columns: 1fr 1fr; }
     .process-grid { grid-template-columns: 1fr 1fr; }
     .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
     .portfolio-grid { grid-template-columns: 1fr 1fr; }
-    .proj:nth-child(n) { grid-column: auto; grid-row: auto; min-height: 220px; }
+    .portfolio-grid .img-card { grid-column: span 1 !important; min-height: 220px !important; }
     .nav-links { display: none; }
     .hamburger { display: flex; }
     .process-arrow { display: none; }
@@ -709,6 +859,8 @@
     .process-grid { grid-template-columns: 1fr; }
     .form-row { grid-template-columns: 1fr; }
     .portfolio-grid { grid-template-columns: 1fr; }
+    .cat-tiles { grid-template-columns: 1fr; }
+    .owners-grid { grid-template-columns: 1fr; }
     .about-stats { grid-template-columns: 1fr 1fr; }
   }
 
@@ -793,9 +945,120 @@
     animation: slideUp 0.4s ease;
   }
   .toast.show { display: block; }
-  @keyframes slideUp {
+  /* ── CATEGORY TILES ── */
+  .cat-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  .cat-tile {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--dark2);
+    border: 0.5px solid var(--border);
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: flex-end;
+    padding: 0;
+    transition: border-color 0.4s;
+    text-align: left;
+  }
+  .cat-tile:hover { border-color: rgba(201,168,76,0.65); }
+  .cat-tile-bg {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(15%) brightness(0.6);
+    transition: transform 0.75s ease, filter 0.5s ease;
+  }
+  .cat-tile:hover .cat-tile-bg { transform: scale(1.06); filter: grayscale(0%) brightness(0.5); }
+  .cat-tile-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.1) 60%, transparent 100%);
+  }
+  .cat-tile-content {
+    position: relative; z-index: 2;
+    padding: 1.8rem 2rem;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .cat-tile-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+  .cat-tile-count {
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .cat-tile-arrow {
+    font-size: 1.4rem;
+    color: var(--gold);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.3s, transform 0.3s;
+    flex-shrink: 0;
+  }
+  .cat-tile:hover .cat-tile-arrow { opacity: 1; transform: translateX(0); }
+
+  /* ── SUB VIEW ── */
+  #portfolioSubView {
+    display: none;
+    animation: subSlideIn 0.35s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  @keyframes subSlideIn {
     from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .sub-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .sub-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: transparent;
+    border: 0.5px solid var(--border);
+    color: var(--text-muted);
+    padding: 0.7rem 1.2rem;
+    cursor: pointer;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .sub-back-btn::before { content: '← '; }
+  .sub-back-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .sub-cat-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    color: var(--text);
+  }
+  .sub-cat-title em { font-style: italic; color: var(--gold); }
+  .sub-count {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
   }
 </style>
 </head>
@@ -889,20 +1152,23 @@
     <div class="owners-grid fade-in">
       <div class="owner-card">
         <div class="owner-photo" id="photo1">
-          <!-- Replace src below with your actual photo -->
-          <img src="owner1.jpg" alt="Jandig Shanthilal" onerror="this.style.display='none'; this.parentElement.innerText='JS';" />
+          <img src="owner1.jpg" alt="Jandig Shanthilal" onerror="this.style.display='none';" />
         </div>
-        <div class="owner-name">Jandig Shanthilal</div>
-        <div class="owner-role">Co-Founder & Design Director</div>
-        <p class="owner-bio">With a passion for spatial aesthetics and a keen eye for detail, Shanthilal leads the creative vision at Ramdev Interior.</p>
+        <div class="owner-info">
+          <div class="owner-name">Jandig Shanthilal</div>
+          <div class="owner-role">Co-Founder &amp; Design Director</div>
+          <p class="owner-bio">With a passion for spatial aesthetics and a keen eye for detail, Shanthilal leads the creative vision at Ramdev Interior.</p>
+        </div>
       </div>
       <div class="owner-card">
         <div class="owner-photo" id="photo2">
-          <img src="owner2.jpg" alt="Jandig Jaswanth" onerror="this.style.display='none'; this.parentElement.innerText='JJ';" />
+          <img src="owner2.jpg" alt="Jandig Jaswanth" onerror="this.style.display='none';" />
         </div>
-        <div class="owner-name">Jandig Jaswanth</div>
-        <div class="owner-role">Co-Founder & Project Lead</div>
-        <p class="owner-bio">Jaswanth brings precision and project mastery to every build, ensuring each interior is delivered to the highest standard.</p>
+        <div class="owner-info">
+          <div class="owner-name">Jandig Jaswanth</div>
+          <div class="owner-role">Co-Founder &amp; Project Lead</div>
+          <p class="owner-bio">Jaswanth brings precision and project mastery to every build, ensuring each interior is delivered to the highest standard.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -973,64 +1239,149 @@
     <a href="#contact" class="portfolio-link">Start Your Project →</a>
   </div>
 
-  <div class="portfolio-grid">
-    <div class="proj fade-in">
-      <!-- Add your project image: <img src="project1.jpg" alt="Project Name"> -->
-      <img src="proj1.jpg" alt="Luxury Lounge, Guntakal" loading="lazy" />
-      <div class="proj-overlay">
-        <div class="proj-info">
-          <div class="proj-cat">Residential · 2024</div>
-          <div class="proj-title-card">Luxury Lounge & Living Room</div>
-        </div>
+  <!-- MAIN VIEW: Category tiles -->
+  <div class="cat-tiles fade-in" id="portfolioCatTiles"></div>
+
+  <!-- SUB VIEW: Filtered gallery + back button -->
+  <div id="portfolioSubView">
+    <div class="sub-header">
+      <button class="sub-back-btn" id="subBackBtn" type="button">All Categories</button>
+      <div>
+        <div class="sub-cat-title" id="subCatTitle">Living</div>
+        <div class="sub-count" id="subCatCount"></div>
       </div>
     </div>
-    <div class="proj fade-in">
-      <img src="proj2.jpg" alt="Modern Living Room" loading="lazy" />
-      <div class="proj-overlay">
-        <div class="proj-info">
-          <div class="proj-cat">Residential · 2024</div>
-          <div class="proj-title-card">Modern Living Room, Guntakal</div>
-        </div>
-      </div>
-    </div>
-    <div class="proj fade-in">
-      <img src="proj3.jpg" alt="Master Bedroom Suite" loading="lazy" />
-      <div class="proj-overlay">
-        <div class="proj-info">
-          <div class="proj-cat">Residential · 2024</div>
-          <div class="proj-title-card">Master Bedroom & Wardrobe</div>
-        </div>
-      </div>
-    </div>
-    <div class="proj fade-in">
-      <img src="proj4.jpg" alt="Luxury Office Interior" loading="lazy" />
-      <div class="proj-overlay">
-        <div class="proj-info">
-          <div class="proj-cat">Commercial · 2024</div>
-          <div class="proj-title-card">Premium Office Interior</div>
-        </div>
-      </div>
-    </div>
-    <div class="proj fade-in">
-      <img src="proj5.jpg" alt="Modular Kitchen" loading="lazy" />
-      <div class="proj-overlay">
-        <div class="proj-info">
-          <div class="proj-cat">Modular · 2023</div>
-          <div class="proj-title-card">Modular Kitchen Design</div>
-        </div>
-      </div>
-    </div>
-    <div class="proj fade-in">
-      <img src="proj6.jpg" alt="Office Space Design" loading="lazy" />
-      <div class="proj-overlay">
-        <div class="proj-info">
-          <div class="proj-cat">Commercial · 2023</div>
-          <div class="proj-title-card">Modern Office Space</div>
-        </div>
-      </div>
-    </div>
+    <div class="portfolio-grid" id="portfolioSubGrid"></div>
   </div>
 
+  <script>
+    (function(){
+      const categories = [
+        { key: 'Living',           label: 'Living Rooms',     range: [4,  16], thumb: 'IMG-20260621-WA0004.jpg' },
+        { key: 'Bedroom',          label: 'Bedrooms',         range: [17, 28], thumb: 'IMG-20260621-WA0017.jpg' },
+        { key: 'Kitchen',          label: 'Kitchens',         range: [29, 40], thumb: 'IMG-20260621-WA0029.jpg' },
+        { key: 'Office',           label: 'Office Spaces',    range: [41, 50], thumb: 'IMG-20260621-WA0041.jpg' },
+        { key: 'Ceiling/Lighting', label: 'Ceiling & Lights', range: [51, 57], thumb: 'IMG-20260621-WA0051.jpg' },
+        { key: 'Others',           label: 'Others',           range: [58, 61], thumb: 'IMG-20260621-WA0058.jpg' }
+      ];
+      const pad = n => String(n).padStart(4,'0');
+      const tilesWrap = document.getElementById('portfolioCatTiles');
+      const subView   = document.getElementById('portfolioSubView');
+      const subGrid   = document.getElementById('portfolioSubGrid');
+      const subTitle  = document.getElementById('subCatTitle');
+      const subCount  = document.getElementById('subCatCount');
+      const backBtn   = document.getElementById('subBackBtn');
+
+      const allImages = [];
+      categories.forEach(cat => {
+        for (let n = cat.range[0]; n <= cat.range[1]; n++) {
+          allImages.push({ src: `IMG-20260621-WA${pad(n)}.jpg`, cat: cat.key });
+        }
+      });
+
+      // Render category tiles
+      categories.forEach(cat => {
+        const count = cat.range[1] - cat.range[0] + 1;
+        const tile = document.createElement('button');
+        tile.type = 'button';
+        tile.className = 'cat-tile fade-in';
+        tile.setAttribute('aria-label', 'View ' + cat.label);
+        tile.innerHTML =
+          '<div class="cat-tile-bg" style="background-image:url(\'' + cat.thumb + '\')"></div>' +
+          '<div class="cat-tile-overlay"></div>' +
+          '<div class="cat-tile-content">' +
+            '<div>' +
+              '<div class="cat-tile-label">' + cat.label + '</div>' +
+              '<div class="cat-tile-count">' + count + ' photos</div>' +
+            '</div>' +
+            '<div class="cat-tile-arrow">&#8594;</div>' +
+          '</div>';
+        tile.addEventListener('click', function(){ openCategory(cat); });
+        tilesWrap.appendChild(tile);
+      });
+
+      // Card builder
+      const colOpts = [3,4,5,6,7,8,9];
+      const hOpts   = [240,280,320,360,420];
+      function makeCard(imgData, idx) {
+        const card = document.createElement('div');
+        card.className = 'img-card';
+        card.setAttribute('data-src', imgData.src);
+        card.setAttribute('data-cat', imgData.cat);
+        const col = colOpts[idx % colOpts.length];
+        const h   = hOpts[(idx + 2) % hOpts.length];
+        card.classList.add('span-' + col);
+        card.style.minHeight = h + 'px';
+        const img = document.createElement('img');
+        img.src = imgData.src;
+        img.alt = imgData.cat + ' interior';
+        img.loading = 'lazy';
+        const overlay = document.createElement('div');
+        overlay.className = 'img-overlay';
+        overlay.innerHTML = '<div><div class="img-cat">' + imgData.cat + '</div><div class="img-title">Ramdev Interior</div></div>';
+        card.appendChild(img);
+        card.appendChild(overlay);
+        card.addEventListener('click', function(){ openLightbox(imgData.src, imgData.cat); });
+        return card;
+      }
+
+      function openCategory(cat) {
+        const imgs = allImages.filter(i => i.cat === cat.key);
+        subGrid.innerHTML = '';
+        imgs.forEach(function(img, i){ subGrid.appendChild(makeCard(img, i)); });
+        subTitle.innerHTML = '<em>' + cat.label + '</em>';
+        subCount.textContent = imgs.length + ' photograph' + (imgs.length !== 1 ? 's' : '');
+        tilesWrap.style.display = 'none';
+        subView.style.display = 'block';
+        subView.style.animation = 'none';
+        requestAnimationFrame(function(){
+          subView.style.animation = 'subSlideIn 0.35s cubic-bezier(0.22,1,0.36,1) both';
+        });
+        document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const cards = Array.from(subGrid.querySelectorAll('.img-card'));
+        const obs = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if (e.isIntersecting){ e.target.classList.add('revealed'); obs.unobserve(e.target); }
+          });
+        }, { threshold: 0.08 });
+        cards.forEach(function(c, i){ c.style.transitionDelay = Math.min(300, i*45) + 'ms'; obs.observe(c); });
+      }
+
+      backBtn.addEventListener('click', function(){
+        subView.style.display = 'none';
+        subGrid.innerHTML = '';
+        tilesWrap.style.display = 'grid';
+        document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      // Fade tiles on scroll
+      const tileObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.cat-tile').forEach(function(t){ tileObs.observe(t); });
+
+      // Lightbox
+      const modal = document.createElement('div');
+      Object.assign(modal.style, { position:'fixed', inset:'0', background:'rgba(0,0,0,0.88)', display:'none', zIndex:'1000', alignItems:'center', justifyContent:'center', padding:'5vw', cursor:'zoom-out' });
+      const box = document.createElement('div');
+      Object.assign(box.style, { maxWidth:'1100px', width:'100%', background:'rgba(17,17,17,0.95)', border:'0.5px solid rgba(201,168,76,0.35)', boxShadow:'0 20px 80px rgba(0,0,0,0.6)', position:'relative', cursor:'default' });
+      const closeBtn = document.createElement('button');
+      closeBtn.type='button'; closeBtn.textContent='✕';
+      Object.assign(closeBtn.style, { position:'absolute', top:'-14px', right:'0', background:'transparent', border:'none', color:'#E8E4DC', fontSize:'20px', cursor:'pointer', lineHeight:'1' });
+      const lightImg = document.createElement('img');
+      Object.assign(lightImg.style, { width:'100%', height:'auto', display:'block', maxHeight:'80vh', objectFit:'contain' });
+      const caption = document.createElement('div');
+      Object.assign(caption.style, { padding:'0.9rem 1.2rem', color:'rgba(201,168,76,0.8)', fontFamily:'Jost, sans-serif', fontWeight:'300', letterSpacing:'0.15em', textTransform:'uppercase', fontSize:'0.72rem' });
+      box.appendChild(closeBtn); box.appendChild(lightImg); box.appendChild(caption);
+      modal.appendChild(box); document.body.appendChild(modal);
+
+      function openLightbox(src, cat){ lightImg.src=src; caption.textContent=cat; modal.style.display='flex'; }
+      function closeLightbox(){ modal.style.display='none'; }
+      closeBtn.addEventListener('click', closeLightbox);
+      modal.addEventListener('click', function(e){ if(e.target===modal) closeLightbox(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
+    })();
+  </script>
 
 </section>
 
@@ -1168,9 +1519,33 @@
   </a>
 </div>
 
-<script>
-  // Nav scroll
-  const navbar = document.getElementById('navbar');
+  <script>
+    // GOLD DUST (optional, subtle)
+
+    (function(){
+      const hero = document.getElementById('hero');
+      if(!hero) return;
+      const dust = document.createElement('div');
+      dust.className = 'dust-layer';
+      dust.setAttribute('aria-hidden','true');
+      const count = 14;
+      for(let i=0;i<count;i++){
+        const d = document.createElement('div');
+        d.className = 'dust';
+        d.style.left = (Math.random()*100) + '%';
+        d.style.top = (Math.random()*100) + '%';
+        d.style.animationDelay = (Math.random()*7) + 's';
+        d.style.animationDuration = (6 + Math.random()*8) + 's';
+        d.style.opacity = String(0.35 + Math.random()*0.55);
+        dust.appendChild(d);
+      }
+      hero.style.position = hero.style.position || 'relative';
+      hero.appendChild(dust);
+    })();
+
+    // Nav scroll
+    const navbar = document.getElementById('navbar');
+
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 60);
   });
@@ -1192,8 +1567,24 @@
   }, { threshold: 0.12 });
   faders.forEach(f => observer.observe(f));
 
+  // Hero subtle parallax
+  const hero = document.getElementById('hero');
+  const heroGrid = document.querySelector('.hero-grid');
+  if (hero && heroGrid) {
+    hero.addEventListener('mousemove', (ev) => {
+      const r = hero.getBoundingClientRect();
+      const x = (ev.clientX - r.left) / r.width - 0.5;
+      const y = (ev.clientY - r.top) / r.height - 0.5;
+      heroGrid.style.transform = `translate(${x * 12}px, ${y * 12}px)`;
+    });
+    hero.addEventListener('mouseleave', () => {
+      heroGrid.style.transform = 'translate(0px, 0px)';
+    });
+  }
+
   // Form submit → Formspree (email) + WhatsApp
   async function handleSubmit(e) {
+
     e.preventDefault();
 
     const name    = document.getElementById('name').value.trim();
